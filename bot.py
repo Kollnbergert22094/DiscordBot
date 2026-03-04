@@ -5,14 +5,12 @@ import json
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-# Definiere den Pfad zum Mount-Point
 DATA_DIR = "/data"
 DATA_FILE = os.path.join(DATA_DIR, "pools.json")
 
-# Sicherstellen, dass der Ordner existiert (falls lokal getestet wird)
 if not os.path.exists(DATA_DIR):
-    # Falls wir nicht in Azure sind, nutzen wir das aktuelle Verzeichnis
     DATA_FILE = "pools.json"
+
 
 class MyClient(discord.Client):
     def __init__(self):
