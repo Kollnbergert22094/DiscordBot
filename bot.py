@@ -3,6 +3,7 @@ from discord import app_commands
 import os
 import json
 
+print("PYTHON STARTING UP...", flush=True)
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 DATA_DIR = "/data"
