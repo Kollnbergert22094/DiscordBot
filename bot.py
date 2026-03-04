@@ -41,6 +41,8 @@ pools = load_pools()
 )
 async def create_pool(interaction: discord.Interaction, pool_name: str, items_string: str):
     item_list = [i.strip() for i in items_string.split(",")]
+
+    await interaction.response.defer(ephemeral=True)
     
     if pool_name in pools:
         await interaction.response.send_message(f"Pool `{pool_name}` existiert bereits!", ephemeral=True)
@@ -49,7 +51,7 @@ async def create_pool(interaction: discord.Interaction, pool_name: str, items_st
     pools[pool_name] = {"all": item_list, "hidden": []}
     save_pools(pools)
     
-    await interaction.response.send_message(
+    await interaction.followup.send(
         f"Pool `{pool_name}` erstellt mit {len(item_list)} Items."
     )
 
