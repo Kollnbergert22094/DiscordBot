@@ -1,1 +1,3 @@
-discord.py
+fastapi
+pynacl
+upstash-redis
