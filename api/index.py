@@ -188,7 +188,7 @@ def reset_pool(opts):
 
     pool["hidden"] = []
     save_pool(name, pool)
-    return reply(f"Pool `{name}` zurückgesetzt, alle {len(pool['all'])} Items sind wieder ziehbar.")
+    return reply(f"Pool `{name}` zurückgesetzt, alle {len(pool['all'])} Item(s) sind wieder ziehbar.")
 
 
 # ---------- Autovervollständigung ----------
@@ -219,9 +219,11 @@ def autocomplete(data):
             done, current = [p for p in parts[:-1] if p], parts[-1]
             chosen = {p.casefold() for p in done}
             for item in matches([i for i in pool["all"] if i.casefold() not in chosen], current):
-                value = ", ".join(done + [item])
+                value = ", ".join(done + [item])  # landet im Eingabefeld
                 if len(value) <= 100:
-                    choices.append({"name": value, "value": value})
+                    # angezeigt wird nur das neue Item, nicht die ganze Liste
+                    label = f"+ {item}" if done else item
+                    choices.append({"name": label[:100], "value": value})
 
     return {"type": 8, "data": {"choices": choices[:25]}}
 
