@@ -222,7 +222,8 @@ def autocomplete(data):
                 value = ", ".join(done + [item])  # landet im Eingabefeld
                 if len(value) <= 100:
                     # angezeigt wird nur das neue Item, nicht die ganze Liste
-                    choices.append({"name": item[:100], "value": value})
+                    label = f"+ {item}" if done else item
+                    choices.append({"name": value, "value": value})
 
     return {"type": 8, "data": {"choices": choices[:25]}}
 
