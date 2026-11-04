@@ -55,10 +55,27 @@ def show_pools(opts):
     return reply("Verfügbare Pools: " + ", ".join(f"`{n}`" for n in sorted(names)))
 
 
+def show_items(opts):
+    name = opts["pool_name"].strip()
+    raw = redis.hget(POOLS, name)
+    if raw is None:
+        return reply(f"Pool `{name}` existiert nicht!", ephemeral=True)
+
+    items = sorted(json.loads(raw)["all"], key=str.casefold)
+    if not items:
+        return reply(f"Pool `{name}` ist leer.", ephemeral=True)
+
+    text = f"**{name}** ({len(items)} Items):\n" + "\n".join(f"• {i}" for i in items)
+    if len(text) > 2000:  # Discord-Limit pro Nachricht
+        text = text[:1990] + "\n…"
+    return reply(text)
+
+
 COMMANDS = {
     "create_pool": create_pool,
     "delete_pool": delete_pool,
     "show_pools": show_pools,
+    "show_items": show_items,
 }
 
 
